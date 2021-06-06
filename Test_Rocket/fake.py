@@ -12,16 +12,28 @@ from faker import Faker
 fake = Faker()
 level = []
 for number_tuple_level in range(len(Employee.LEVEL)):
-    tuple_level = Employee.LEVEL[number_tuple_level]
-    level.append(tuple_level[0])
+    level.append(Employee.LEVEL[number_tuple_level][1])
 
-position = []
-employee_position_all = Position.objects.all().values_list('id', flat=True)
-for name_position in employee_position_all:
-    position.append(name_position)
+position = Position.objects.all().values_list('id', flat=True)
+
+
+
+""" Функция по заполнению таблицы сотрудников при помощи Faker """
 
 
 def populate(N=5):
+    if len(Employee.objects.all().values_list('id', flat=True)) == 0:
+        Employee.objects.get_or_create(first_name='Maksim',
+                                       last_name='Bulavsky',
+                                       second_name='Andreevich',
+                                       date_of_employment='2021-06-06',
+                                       salary=900,
+                                       total_paid=5000,
+                                       level='Level_1',
+                                       position_id=1,
+                                       chief_id=None,
+                                       )
+
     for entry in range(N):
         fake_first_name = fake.first_name()
         fake_last_name = fake.last_name()
@@ -31,6 +43,7 @@ def populate(N=5):
         fake_level = random.choice(level)
         fake_data_of_employment = fake.date_between_dates()
         fake_positional_id = random.choice(position)
+        fake_chef_id = random.choice(Employee.objects.all().values_list('id', flat=True))
 
         employee = Employee.objects.get_or_create(first_name=fake_first_name,
                                                   last_name=fake_last_name,
@@ -40,6 +53,7 @@ def populate(N=5):
                                                   total_paid=fake_total_paid,
                                                   level=fake_level,
                                                   position_id=fake_positional_id,
+                                                  chief_id=fake_chef_id,
                                                   )
 
 
