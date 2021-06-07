@@ -16,8 +16,6 @@ for number_tuple_level in range(len(Employee.LEVEL)):
 
 position = Position.objects.all().values_list('id', flat=True)
 
-
-
 """ Функция по заполнению таблицы сотрудников при помощи Faker """
 
 
