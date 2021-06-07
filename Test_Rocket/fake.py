@@ -1,3 +1,7 @@
+"""Запустить python fake.py что бы добавить донные о сотрудниках
+ populate(n) n-сколько сотрудников добавить.
+ Если в БД нету ни одного сотрудника, то в начале добавится сотрудник Maksim Bulavsky, а потом остальные.
+ """
 import os
 import django
 
@@ -12,7 +16,7 @@ from faker import Faker
 fake = Faker()
 level = []
 for number_tuple_level in range(len(Employee.LEVEL)):
-    level.append(Employee.LEVEL[number_tuple_level][1])
+    level.append(Employee.LEVEL[number_tuple_level][0])
 
 position = Position.objects.all().values_list('id', flat=True)
 
@@ -57,5 +61,6 @@ def populate(N=5):
 
 if __name__ == '__main__':
     print("Populating the databases...Please Wait")
-    populate(10)
+    populate(2)
     print('Populating Complete')
+

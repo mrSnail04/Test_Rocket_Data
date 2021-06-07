@@ -2,10 +2,16 @@ from django.contrib import admin
 from .models import *
 from django.urls import reverse
 from django.utils.html import format_html
+from .tasks import clear_total_paid_task
 
 
 def clear_total_paid(modeladmin, request, queryset):
-    queryset.update(total_paid=f'{0}')
+    if queryset.count() >= 20:
+        clear_total_paid_task.delay(modeladmin, request, queryset)
+        queryset.update(salary=f'{1}')
+    else:
+        clear_total_paid_task(modeladmin, request, queryset)
+        queryset.update(salary=f'{2}')
 
 
 clear_total_paid.short_description = "Удалить информацию о выплаченной заработной плате"

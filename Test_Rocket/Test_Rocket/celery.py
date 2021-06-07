@@ -13,6 +13,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'sum_salary': {
         'task': 'employee.tasks.sum_salary',
-        'schedule': 10.0,
+        'schedule': 7200.0,
     }
 }
