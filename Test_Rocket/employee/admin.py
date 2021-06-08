@@ -3,15 +3,15 @@ from .models import *
 from django.urls import reverse
 from django.utils.html import format_html
 from .tasks import clear_total_paid_task
+from django.core import serializers
 
 
 def clear_total_paid(modeladmin, request, queryset):
-    if queryset.count() >= 20:
-        clear_total_paid_task.delay(modeladmin, request, queryset)
-        queryset.update(salary=f'{1}')
+    if queryset.count() >= 2:
+        clear_total_paid_task.apply_async((modeladmin, request, queryset))
+
     else:
         clear_total_paid_task(modeladmin, request, queryset)
-        queryset.update(salary=f'{2}')
 
 
 clear_total_paid.short_description = "Удалить информацию о выплаченной заработной плате"
