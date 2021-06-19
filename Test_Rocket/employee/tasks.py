@@ -1,6 +1,6 @@
-from celery import shared_task
 from celery import Celery
-from .models import *
+from .models import Employee
+
 app = Celery('Test_Rocket', broker='redis://127.0.0.1:6379/0')
 
 
@@ -21,4 +21,3 @@ def sum_salary():
 def clear_total_paid_task(id_employee):
     Employee.objects.filter(id__in=id_employee).update(total_paid=f'{0}')
     return
-
