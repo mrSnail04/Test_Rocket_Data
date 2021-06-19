@@ -22,8 +22,18 @@ position = Position.objects.all().values_list('id', flat=True)
 
 """ Функция по заполнению таблицы сотрудников при помощи Faker """
 
+id = [x for x in range(10)]
+
 
 def populate(N=5):
+    if len(Position.objects.all().values_list('id', flat=True)) == 0:
+        Position.objects.bulk_create([
+            Position(name='Начальник'),
+            Position(name='Заместитель начальник'),
+            Position(name='Начальник отдела'),
+            Position(name='Менеджер отдела'),
+            Position(name='Работник отдела'),
+        ])
     if len(Employee.objects.all().values_list('id', flat=True)) == 0:
         Employee.objects.get_or_create(first_name='Maksim',
                                        last_name='Bulavsky',
@@ -61,6 +71,6 @@ def populate(N=5):
 
 if __name__ == '__main__':
     print("Populating the databases...Please Wait")
-    populate(2)
+    populate(100)
     print('Populating Complete')
 

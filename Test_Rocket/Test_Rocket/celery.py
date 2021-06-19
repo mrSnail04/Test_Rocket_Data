@@ -13,6 +13,6 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     'sum_salary': {
         'task': 'employee.tasks.sum_salary',
-        'schedule': 7200.0,
+        'schedule': 7200,
     }
 }

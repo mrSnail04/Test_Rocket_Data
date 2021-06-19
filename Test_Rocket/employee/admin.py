@@ -7,20 +7,20 @@ from django.core import serializers
 
 
 def clear_total_paid(modeladmin, request, queryset):
-    if queryset.count() >= 2:
-        clear_total_paid_task.apply_async((modeladmin, request, queryset))
-
+    id_employee = queryset.values_list('id', flat=True)
+    id_employee = list(id_employee)
+    if queryset.count() >= 20:
+        clear_total_paid_task.delay(id_employee)
     else:
-        clear_total_paid_task(modeladmin, request, queryset)
+        clear_total_paid_task(id_employee)
 
 
 clear_total_paid.short_description = "Удалить информацию о выплаченной заработной плате"
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'second_name',
-                    'position', 'link_to_chief', 'salary', 'total_paid',
-                    )
+    list_display = ('id', 'last_name', 'first_name', 'second_name',
+                    'position', 'link_to_chief', 'salary', 'total_paid',)
     list_filter = ('position', 'level',)
     actions = [clear_total_paid]
 
