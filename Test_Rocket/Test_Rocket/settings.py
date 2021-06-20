@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_celery_beat',
     'django_celery_results',
+    'psycopg2'
 
 ]
 
@@ -99,8 +100,12 @@ WSGI_APPLICATION = 'Test_Rocket.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tet_db',
+        'USER': 'admin',
+        'PASSWORD': 'adminpass',
+        'HOST': 'postgresdb',
+        'PORT': 5432
     }
 }
 
