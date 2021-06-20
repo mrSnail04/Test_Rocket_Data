@@ -29,21 +29,27 @@ ALLOWED_HOSTS = []
 
 # celery settings
 
-REDIS_HOST = '127.0.0.1'
-REDIS_PORT = '6379'
+# CELERY_TIMEZONE = "Europe/Moscow"
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
+#
+# CELERY_BROKER_URL = 'redis://redis:6379/0'
+# CELERY_BROKER_TRANSPORT_OPTION = {'visibility_timeout': 3600}
+# CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
 
-CELERY_TIMEZONE = "Europe/Moscow"
+TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_BROKER_TRANSPORT_OPTION = {'visibility_timeout': 3600}
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-
-CELERY_RESULT_BACKEND = 'django-db'
+RESULT_BACKEND = 'redis://redis:6379/0'
+ACCEPT_CONTENT = ['application/json']
+TASK_SERIALIZER = 'json'
+RESULT_SERIALIZER = 'json'
 # Application definition
 
 INSTALLED_APPS = [
@@ -57,8 +63,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_celery_beat',
     'django_celery_results',
-    'psycopg2'
-
+    'psycopg2',
+    'celery',
 ]
 
 FAKER_LOCALE = None     # settings.LANGUAGE_CODE is loaded
@@ -94,18 +100,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Test_Rocket.wsgi.application'
 
+ADMINS = (
+    # ('Your Name', 'your_email@domain.com'),
+    ('admin', 'admin@mysite.com'),
+)
+ADMIN_USERNAME = 'admin'
+ADMIN_EMAIL = 'admin@mysite.com'
+ADMIN_INITIAL_PASSWORD = 'admin'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tet_db',
-        'USER': 'admin',
-        'PASSWORD': 'adminpass',
-        'HOST': 'postgresdb',
-        'PORT': 5432
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 

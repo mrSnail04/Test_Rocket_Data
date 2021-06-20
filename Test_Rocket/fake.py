@@ -22,8 +22,6 @@ position = Position.objects.all().values_list('id', flat=True)
 
 """ Функция по заполнению таблицы сотрудников при помощи Faker """
 
-id = [x for x in range(10)]
-
 
 def populate(N=5):
     if len(Position.objects.all().values_list('id', flat=True)) == 0:
@@ -71,5 +69,5 @@ def populate(N=5):
 
 if __name__ == '__main__':
     print("Populating the databases...Please Wait")
-    populate(100)
+    populate(50)
     print('Populating Complete')

@@ -1,38 +1,56 @@
 version: "3.8"
 
 services:
-  postgresdb:
-    build:
-      context: ./docker/postgres
-      dockerfile: Dockerfile
-    environment:
-      - POSTGRES_PASSWORD=adminpass
-    volumes:
-      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+  db:
+    image: "postgres:12"
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
 
   django:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
+    container_name: django
+    command: bash -c "python manage.py create_superuser
+              && python /usr/src/app/manage.py makemigrations --no-input
+              && python /usr/src/app/manage.py migrate --no-input
+              && python /usr/src/app/manage.py fake
+              && python /usr/src/app/manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/usr/src/app
+      - ./:/usr/src/app
     depends_on:
-      - postgresdb
-      - redis
+      - db
     ports:
       - "8000:8000"
 
-#  celery:
-#    build: .
-#    command: celery -A Test_Rocket worker -l info
-#    volumes:
-#      - .:/usr/src/app
-#    depends_on:
-#      - redis
+  celery:
+    restart: always
+    build: .
+    container_name: celery
+    command: bash -c  "celery -A Test_Rocket worker -l INFO --pool=solo"
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+      - django
+      - redis
+
+  celery-beat:
+    restart: always
+    build: .
+    container_name: celery-beat
+    command: bash -c  "celery -A Test_Rocket beat -l INFO"
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+      - django
+      - redis
 
   redis:
     image: redis:latest
-
-
+    container_name: radis
