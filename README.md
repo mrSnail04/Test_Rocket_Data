@@ -72,7 +72,7 @@
   ```
 Так же доступна аутентификация через api-key.
 Что бы получить ключ требуется выполнить POST запрос с параметрами </br>
-  username:<Your_username>
+  username:<Your_username> </br>
   password:<Your_password>
   
   ```
