@@ -71,10 +71,18 @@
   http://127.0.0.1:8000/api-auth/login/
   ```
 Так же доступна аутентификация через api-key.
-Что бы получить ключ требуется выполнить запрос :
+Что бы получить ключ требуется выполнить POST запрос с параметрами 
+  username:<Your_username>
+  password:<Your_password>
   
   ```
   http://127.0.0.1:8000/api-auth/get-token/
+  ```
+ Что бы получить данные о пользователе выполните GET запрос 
+  Authorization: Token <Token>
+  
+  ```
+  http://127.0.0.1:8000/api-auth/about-user/
   ```
   
 ## Запуск проекта при помощи  docker-compose
