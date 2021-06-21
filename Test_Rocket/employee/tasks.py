@@ -1,7 +1,7 @@
 from celery import Celery
 from .models import Employee
 
-app = Celery('Test_Rocket', broker='redis://127.0.0.1:6379/0')
+app = Celery('Test_Rocket', broker='redis://redis:6379/0')
 
 
 @app.task
@@ -19,11 +19,10 @@ def sum_salary():
 
 @app.task
 def clear_total_paid_task(id_employee):
-    print('FDfdfsdfsdf')
-    id = []
-    for i in id_employee:
-        id_em = Employee.objects.get(id=i)
+    id_employee_update = []
+    for id_empl in id_employee:
+        id_em = Employee.objects.get(id=id_empl)
         id_em.total_paid = 0
-        id.append(id_em)
-    Employee.objects.bulk_update(id, ["total_paid"])
+        id_employee_update.append(id_em)
+    Employee.objects.bulk_update(id_employee_update, ["total_paid"])
     return
