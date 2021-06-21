@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'psycopg2',
     'celery',
+    'rest_framework.authtoken',
 ]
 
 FAKER_LOCALE = None     # settings.LANGUAGE_CODE is loaded
