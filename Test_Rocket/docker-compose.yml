@@ -5,10 +5,6 @@ services:
     image: "postgres:12"
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
 
   django:
     build:
@@ -31,7 +27,7 @@ services:
     restart: always
     build: .
     container_name: celery
-    command: bash -c  "celery -A Test_Rocket worker -l INFO --pool=solo"
+    command: celery -A Test_Rocket worker -E -l INFO
     volumes:
       - .:/usr/src/app
     depends_on:
@@ -43,7 +39,7 @@ services:
     restart: always
     build: .
     container_name: celery-beat
-    command: bash -c  "celery -A Test_Rocket beat -l INFO"
+    command: celery -A Test_Rocket beat -l INFO
     volumes:
       - .:/usr/src/app
     depends_on:

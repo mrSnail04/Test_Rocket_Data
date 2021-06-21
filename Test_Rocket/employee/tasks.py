@@ -19,5 +19,11 @@ def sum_salary():
 
 @app.task
 def clear_total_paid_task(id_employee):
-    Employee.objects.filter(id__in=id_employee).update(total_paid=f'{0}')
+    print('FDfdfsdfsdf')
+    id = []
+    for i in id_employee:
+        id_em = Employee.objects.get(id=i)
+        id_em.total_paid = 0
+        id.append(id_em)
+    Employee.objects.bulk_update(id, ["total_paid"])
     return
