@@ -14,9 +14,6 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
 
-
-    """ Функция по заполнению таблицы сотрудников при помощи Faker """
-
     def handle(self, *args, **options):
         print('Start add employee')
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Test_Rocket.settings')
